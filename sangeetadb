@@ -1,0 +1,223 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Sep 16, 2020 at 07:41 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `sangeetadb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `Bid` int(12) NOT NULL,
+  `guestid` int(12) NOT NULL,
+  `roomtypeid` int(12) NOT NULL,
+  `from` date NOT NULL,
+  `to` date NOT NULL,
+  `rno` int(12) NOT NULL,
+  `status` int(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`Bid`, `guestid`, `roomtypeid`, `from`, `to`, `rno`, `status`) VALUES
+(16, 1, 1, '2020-09-16', '2020-09-18', 1, 2),
+(17, 2, 5, '2020-09-18', '2020-09-25', 2, 2),
+(18, 4, 6, '2020-09-17', '2020-09-18', 4, 1),
+(19, 7, 7, '2020-09-16', '2020-09-17', 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guest`
+--
+
+CREATE TABLE `guest` (
+  `guestid` int(12) NOT NULL,
+  `gname` varchar(255) NOT NULL,
+  `gphone` double NOT NULL,
+  `gemail` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `guest`
+--
+
+INSERT INTO `guest` (`guestid`, `gname`, `gphone`, `gemail`) VALUES
+(1, 'Dipankar rabha', 918011248030, 'dipankarrabha2011@gmail.com'),
+(2, 'kankan rabha', 918638457364, 'rakeshrizal9435@gmail.com'),
+(3, 'sangeeta', 34234521, 'sangeeta@gmail.com'),
+(4, 'test', 784521354, 'test@gmail.com'),
+(5, 'test2', 789542134, 'test@gmail.com'),
+(6, 'TEST2', 7845213645, 'dipankarrabha2011@gmail.com'),
+(7, 'assdf', 568451364, 'dipankarrabha2011@gmail.com'),
+(8, 'new', 25461235, 'new@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `guestview`
+-- (See below for the actual view)
+--
+CREATE TABLE `guestview` (
+`guestid` int(12)
+,`gname` varchar(255)
+,`gphone` double
+,`gemail` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `roomid` int(12) NOT NULL,
+  `roomnumber` int(12) NOT NULL,
+  `roomtypeid` int(12) NOT NULL,
+  `status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`roomid`, `roomnumber`, `roomtypeid`, `status`) VALUES
+(3, 1, 1, 'booked'),
+(4, 2, 5, 'booked'),
+(5, 3, 2, 'empty'),
+(6, 4, 6, 'booked'),
+(7, 5, 7, 'booked'),
+(8, 12, 1, 'empty'),
+(9, 13, 1, 'empty');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roomtype`
+--
+
+CREATE TABLE 'roomtype' ('roomtypeid' int(12) NOT NULL,'roomtype_desc' varchar(255) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `roomtype`
+--
+
+INSERT INTO `roomtype` (`roomtypeid`, `roomtype_desc`) VALUES
+(1, 'SINGLE WITH AC'),
+(2, 'DOUBLE WITH AC'),
+(5, 'SINGLE WIHOUT AC'),
+(6, 'DOUBLE WIHOUT AC'),
+(7, 'SUIT');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `guestview`
+--
+DROP TABLE IF EXISTS `guestview`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `guestview`  AS  select `guest`.`guestid` AS `guestid`,`guest`.`gname` AS `gname`,`guest`.`gphone` AS `gphone`,`guest`.`gemail` AS `gemail` from `guest` ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`Bid`),
+  ADD KEY `roomtype` (`roomtypeid`),
+  ADD KEY `guestid` (`guestid`);
+
+--
+-- Indexes for table `guest`
+--
+ALTER TABLE `guest`
+  ADD PRIMARY KEY (`guestid`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`roomid`),
+  ADD KEY `roomtypeid` (`roomtypeid`);
+
+--
+-- Indexes for table `roomtype`
+--
+ALTER TABLE `roomtype`
+  ADD PRIMARY KEY (`roomtypeid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `Bid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `guest`
+--
+ALTER TABLE `guest`
+  MODIFY `guestid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `roomid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `roomtype`
+--
+ALTER TABLE `roomtype`
+  MODIFY `roomtypeid` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `guestid` FOREIGN KEY (`guestid`) REFERENCES `guest` (`guestid`),
+  ADD CONSTRAINT `roomtype` FOREIGN KEY (`roomtypeid`) REFERENCES `roomtype` (`roomtypeid`);
+
+--
+-- Constraints for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `roomtypeid` FOREIGN KEY (`roomtypeid`) REFERENCES `roomtype` (`roomtypeid`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
